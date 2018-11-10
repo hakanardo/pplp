@@ -11,6 +11,7 @@ double call_glpk(long vars, double *objective, double *value, long dir,
 		 int *amatrix_i, int *amatrix_j, double *amatrix_r,
 		 long var_kind_len, long *var_kind, int use_simplex) {
   long i;
+  glp_term_out(GLP_OFF);
   glp_prob *lp = glp_create_prob();
   int is_mip = 0;
   glp_set_obj_dir(lp, dir);
@@ -38,7 +39,7 @@ double call_glpk(long vars, double *objective, double *value, long dir,
   }
 
   double z;
-  clock_t t0 = clock();
+//  clock_t t0 = clock();
   if (use_simplex) {
       glp_smcp params;
       glp_init_smcp(&params);
@@ -50,8 +51,8 @@ double call_glpk(long vars, double *objective, double *value, long dir,
       if (e) printf("glp_interior failed: %d\n", e);
       z = glp_ipt_obj_val(lp); // Not working :(
   }
-  clock_t t1 = clock();
-  printf("IN %f s\n", ((float)(t1-t0))/((float)CLOCKS_PER_SEC));
+//  clock_t t1 = clock();
+//  printf("IN %f s\n", ((float)(t1-t0))/((float)CLOCKS_PER_SEC));
 
   if (is_mip) {
     glp_intopt(lp, NULL);
