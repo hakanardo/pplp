@@ -22,7 +22,7 @@ class libglpk(object):
                           c_long, c_long_p, c_double_p, c_double_p,
                           c_long, c_long_p, c_double_p, c_double_p,
                           c_long, c_int_p, c_int_p, c_double_p,
-                          c_long, c_long_p, c_int
+                          c_long, c_long_p, c_int, c_int
                           ]
     
     call_glpk.restype = c_double
@@ -60,7 +60,7 @@ class Objective(object):
         
 
 class LinearProgram(object):
-    def __init__(self):
+    def __init__(self, verbose=0):
         self.vars = 0
         self.var_bound = AutoArray('l')
         self.var_lower = AutoArray('d')
@@ -77,6 +77,7 @@ class LinearProgram(object):
         self.amatrix_r = AutoArray('d', (-1,))
 
         self._objective = Objective(self)
+        self.verbose = verbose
 
 
     def Var(self):
@@ -146,7 +147,7 @@ class LinearProgram(object):
                               len(self.amatrix_i),
                               self.amatrix_i, self.amatrix_j, self.amatrix_r,
                               len(self.var_kind), self.var_kind,
-                              1)
+                              1, self.verbose)
         return v
         
 

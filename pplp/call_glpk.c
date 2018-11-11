@@ -9,9 +9,12 @@ double call_glpk(long vars, double *objective, double *value, long dir,
 		 long *auxvar_bound, double *auxvar_lower, double *auxvar_upper,
 		 long amatrix_elements,
 		 int *amatrix_i, int *amatrix_j, double *amatrix_r,
-		 long var_kind_len, long *var_kind, int use_simplex) {
+		 long var_kind_len, long *var_kind, int use_simplex,
+		 int verbose) {
   long i;
-  glp_term_out(GLP_OFF);
+  if (verbose) glp_term_out(GLP_ON);
+  else glp_term_out(GLP_OFF);
+
   glp_prob *lp = glp_create_prob();
   int is_mip = 0;
   glp_set_obj_dir(lp, dir);
